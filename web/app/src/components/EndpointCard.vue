@@ -17,8 +17,6 @@
           </CardTitle>
           <div class="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground min-h-[1.25rem]">
             <span v-if="endpoint.group" class="truncate" :title="endpoint.group">{{ endpoint.group }}</span>
-            <span v-if="endpoint.group && hostname">•</span>
-            <span v-if="hostname" class="truncate" :title="hostname">{{ hostname }}</span>
           </div>
         </div>
         <div class="flex-shrink-0 ml-2">
@@ -102,9 +100,6 @@ const currentStatus = computed(() => {
   return latestResult.value.success ? 'healthy' : 'unhealthy'
 })
 
-const hostname = computed(() => {
-  return latestResult.value?.hostname || null
-})
 
 const displayResults = computed(() => {
   const results = [...(props.endpoint.results || [])]

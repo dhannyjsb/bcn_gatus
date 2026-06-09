@@ -1,53 +1,78 @@
+ui:
+  title: "BCN Status | Banua Cloud"
+  header: "Banua Cloud"
+  description: "Monitor status layanan Banua Cloud secara real-time"
+  dashboard-heading: "Status Layanan"
+  dashboard-subheading: "Monitor layanan Banua Cloud"
+  logo: "/img/logo-bcn.png"
+  link: "https://banuacloud.id"
+  favicon:
+    default: "/img/logo-bcn.png"
+    size16x16: "/img/logo-bcn.png"
+    size32x32: "/img/logo-bcn.png"
+  default-sort-by: group
+  dark-mode: false
+
+security:
+  basic:
+    username: "admin"
+    password-bcrypt-base64: "JDJhJDEwJGZCTEY1c0NNWW5tZ210bjRHVi9Oa2V2OTdQVnBnM1Rsc3ZzT3JNdG5aS094eFhWS1gxdFpt"
+
 endpoints:
-  - name: front-end
-    group: core
-    url: "https://twin.sh/health"
-    interval: 5m
-    conditions:
-      - "[STATUS] == 200"
-      - "[BODY].status == UP"
-      - "[RESPONSE_TIME] < 150"
-
-  - name: back-end
-    group: core
-    url: "https://example.org/"
-    interval: 5m
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
-
-  - name: monitoring
-    group: internal
-    url: "https://example.org/"
-    interval: 5m
-    conditions:
-      - "[STATUS] == 200"
-
-  - name: nas
-    group: internal
-    url: "https://example.org/"
-    interval: 5m
-    conditions:
-      - "[STATUS] == 200"
-
-  - name: example-dns-query
-    url: "8.8.8.8" # Address of the DNS server to use
-    interval: 5m
-    dns:
-      query-name: "example.com"
-      query-type: "A"
-    conditions:
-      - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
-      - "[DNS_RCODE] == NOERROR"
-
-  - name: icmp-ping
-    url: "icmp://example.org"
+  # Kominfo Servers
+  - name: Server Kominfo 01
+    group: Kominfo
+    url: "icmp://157.15.123.19"
     interval: 1m
     conditions:
       - "[CONNECTED] == true"
 
-  - name: check-domain-expiration
-    url: "https://example.org/"
-    interval: 1h
+  - name: Server Kominfo 02
+    group: Kominfo
+    url: "icmp://157.15.123.20"
+    interval: 1m
     conditions:
-      - "[DOMAIN_EXPIRATION] > 720h"
+      - "[CONNECTED] == true"
+
+  - name: Server Kominfo 03
+    group: Kominfo
+    url: "icmp://157.15.123.21"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: Server Kominfo 04
+    group: Kominfo
+    url: "icmp://157.15.123.23"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+
+  # Banua Cloud Servers
+  - name: Reverse Proxy BCN
+    group: Banua Cloud
+    url: "icmp://157.15.123.18"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: ACS Banuacloud
+    group: Banua Cloud
+    url: "icmp://157.15.123.26"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: Hosting Banuacloud
+    group: Banua Cloud
+    url: "icmp://157.15.123.24"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: Pterodactyl
+    group: Banua Cloud
+    url: "icmp://157.15.123.25"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"

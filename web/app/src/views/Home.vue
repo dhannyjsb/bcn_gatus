@@ -518,18 +518,26 @@ const toggleGroupCollapse = (groupName) => {
 }
 
 const initializeCollapsedGroups = () => {
-  // Get saved uncollapsed groups from localStorage
   try {
     const saved = localStorage.getItem('gatus:uncollapsed-groups')
     if (saved) {
       uncollapsedGroups.value = new Set(JSON.parse(saved))
+    } else {
+      // No saved state — expand all groups by default
+      expandAllGroups()
     }
-    // If no saved state, uncollapsedGroups stays empty (all collapsed by default)
   } catch (e) {
     console.warn('Failed to parse saved uncollapsed groups:', e)
     localStorage.removeItem('gatus:uncollapsed-groups')
-    // On error, uncollapsedGroups stays empty (all collapsed by default)
+    expandAllGroups()
   }
+}
+
+const expandAllGroups = () => {
+  const groups = new Set()
+  filteredEndpoints.value.forEach(ep => { if (ep.group) groups.add(ep.group) })
+  filteredSuites.value.forEach(s => { if (s.group) groups.add(s.group) })
+  uncollapsedGroups.value = groups
 }
 
 const dashboardHeading = computed(() => {
@@ -540,7 +548,10 @@ const dashboardSubheading = computed(() => {
   return window.config && window.config.dashboardSubheading && window.config.dashboardSubheading !== '{{ .UI.DashboardSubheading }}' ? window.config.dashboardSubheading : "Monitor the health of your endpoints in real-time"
 })
 
-onMounted(() => {
-  fetchData()
+onMounted(async () => {
+  await fetchData()
+  if (uncollapsedGroups.value.size === 0) {
+    expandAllGroups()
+  }
 })
 </script>

@@ -13,66 +13,104 @@ ui:
   default-sort-by: group
   dark-mode: false
 
-security:
-  basic:
-    username: "admin"
-    password-bcrypt-base64: "JDJhJDEwJGZCTEY1c0NNWW5tZ210bjRHVi9Oa2V2OTdQVnBnM1Rsc3ZzT3JNdG5aS094eFhWS1gxdFpt"
+storage:
+  type: sqlite
+  path: /opt/bcn_gatus/data/gatus.db
+  maximum-number-of-results: 2000
+  maximum-number-of-events: 500
 
 endpoints:
-  # Kominfo Servers
+  # Kominfo - Ping
   - name: Server Kominfo 01
-    group: Kominfo
+    group: Kominfo (Ping)
     url: "icmp://157.15.123.19"
-    interval: 1m
+    interval: 5m
     conditions:
       - "[CONNECTED] == true"
 
   - name: Server Kominfo 02
-    group: Kominfo
+    group: Kominfo (Ping)
     url: "icmp://157.15.123.20"
-    interval: 1m
+    interval: 5m
     conditions:
       - "[CONNECTED] == true"
 
   - name: Server Kominfo 03
-    group: Kominfo
+    group: Kominfo (Ping)
     url: "icmp://157.15.123.21"
-    interval: 1m
+    interval: 5m
     conditions:
       - "[CONNECTED] == true"
 
   - name: Server Kominfo 04
-    group: Kominfo
+    group: Kominfo (Ping)
     url: "icmp://157.15.123.23"
-    interval: 1m
+    interval: 5m
     conditions:
       - "[CONNECTED] == true"
+
+  # Kominfo - Plesk
+  - name: Server Kominfo 01 (Panel)
+    group: Kominfo (Panel)
+    url: "https://157.15.123.19:8443/"
+    interval: 5m
+    client:
+      insecure: true
+    conditions:
+      - "[STATUS] < 500"
+
+  - name: Server Kominfo 02 (Panel)
+    group: Kominfo (Panel)
+    url: "https://157.15.123.20:8443/"
+    interval: 5m
+    client:
+      insecure: true
+    conditions:
+      - "[STATUS] < 500"
+
+  - name: Server Kominfo 03 (Panel)
+    group: Kominfo (Panel)
+    url: "https://157.15.123.21:8443/"
+    interval: 5m
+    client:
+      insecure: true
+    conditions:
+      - "[STATUS] < 500"
+
+  - name: Server Kominfo 04 (Panel)
+    group: Kominfo (Panel)
+    url: "https://157.15.123.23:8443/"
+    interval: 5m
+    client:
+      insecure: true
+    conditions:
+      - "[STATUS] < 500"
 
   # Banua Cloud Servers
   - name: Reverse Proxy BCN
     group: Banua Cloud
     url: "icmp://157.15.123.18"
-    interval: 1m
+    interval: 5m
     conditions:
       - "[CONNECTED] == true"
 
   - name: ACS Banuacloud
     group: Banua Cloud
     url: "icmp://157.15.123.26"
-    interval: 1m
+    interval: 5m
     conditions:
       - "[CONNECTED] == true"
 
   - name: Hosting Banuacloud
     group: Banua Cloud
     url: "icmp://157.15.123.24"
-    interval: 1m
+    interval: 5m
     conditions:
       - "[CONNECTED] == true"
 
   - name: Pterodactyl
     group: Banua Cloud
     url: "icmp://157.15.123.25"
-    interval: 1m
+    interval: 5m
     conditions:
       - "[CONNECTED] == true"
